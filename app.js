@@ -46,6 +46,41 @@ function init() {
     myMap1.behaviors.disable('scrollZoom');
     myMap1.behaviors.disable('multiTouch');
 
+
+    // Вторая карта, second map
+    let myMap2 = new ymaps.Map('map2', {
+        center: [55.7, 37.5],
+        zoom: 5,
+        controls: ['zoomControl']
+    });
+
+    let myCollection = new ymaps.GeoObjectCollection({}, {
+        preset: 'islands#blueZooIcon',
+        draggable: false,
+    });
+
+    for (const n in points) {
+        let el = points[n];
+        let coord = el.coordinates;
+        let name = el.name;
+        let content = "";
+
+        if (el.url)
+            content = el.address + "<br><a target='_blank' href='" + el.url + "'>" + el.url + "</a>";
+        else
+            content = el.address;
+
+        myCollection.add(new ymaps.Placemark(coord, {
+            balloonContentHeader: name,
+            balloonContent: content,
+        }));
+    }
+
+    myMap2.geoObjects.add(myCollection);
+
+    myMap2.behaviors.disable('scrollZoom');
+    myMap2.behaviors.disable('multiTouch');
+
 };
 
 ymaps.ready(init);
