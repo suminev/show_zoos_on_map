@@ -1,15 +1,14 @@
-
-
-
 function init() {
 
     // Первая карта, first map
+    // Инициализируем карту
     let myMap1 = new ymaps.Map('map1', {
         center: [55.7, 37.5],
         zoom: 5,
         controls: ['zoomControl']
     });
 
+    // Создаём кластер
     let myClusterer = new ymaps.Clusterer({
         clusterIconLayout: ymaps.templateLayoutFactory.createClass('<div class="icon-cluster">{{ properties.geoObjects.length }}</div>'),
         clusterDisableClickZoom: false,
@@ -20,6 +19,7 @@ function init() {
         }
     });
 
+    // Добавляем все метки в кластер
     for (const n in points) {
         let el = points[n];
         let coord = el.coordinates.reverse();
@@ -41,24 +41,29 @@ function init() {
         }));
     }
 
+    // Выводим данные из кластера на карту
     myMap1.geoObjects.add(myClusterer);
 
+    // Отключаем масштабирование колесом мышки
     myMap1.behaviors.disable('scrollZoom');
     myMap1.behaviors.disable('multiTouch');
 
 
     // Вторая карта, second map
+    // Инициализируем карту
     let myMap2 = new ymaps.Map('map2', {
         center: [55.7, 37.5],
         zoom: 5,
         controls: ['zoomControl']
     });
 
+    // Создаём коллекцию
     let myCollection = new ymaps.GeoObjectCollection({}, {
         preset: 'islands#blueZooIcon',
         draggable: false,
     });
 
+    // Добавляем все метки в коллекцию
     for (const n in points) {
         let el = points[n];
         let coord = el.coordinates;
@@ -76,8 +81,10 @@ function init() {
         }));
     }
 
+    // Выводим данные из коллекции на карту
     myMap2.geoObjects.add(myCollection);
 
+    // Отключаем масштабирование колесом мышки
     myMap2.behaviors.disable('scrollZoom');
     myMap2.behaviors.disable('multiTouch');
 
